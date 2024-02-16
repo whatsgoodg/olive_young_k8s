@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: was-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: was-server
+  template:
+    metadata:
+      labels:
+        app: was-server
+    spec:
+      containers:
+      - name: was-server
+        image: kim521/was:2
+        envFrom:
+        - secretRef:
+            name: db-info
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 4000
+      
